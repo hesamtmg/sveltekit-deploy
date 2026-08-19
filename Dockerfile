@@ -9,12 +9,14 @@ COPY . .
 RUN npm run build
 
 # --- production stage -------------------------------------------------------
-FROM nginx:1.27-alpine AS production
+FROM node:22-alpine AS production
+WORKDIR /app
+ENV NODE_ENV=production
+ENV PORT=3000
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/build ./build
 
-EXPOSE 80
-HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost/ || exit 1
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/ || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "build/index.js"]

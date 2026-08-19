@@ -14,20 +14,22 @@ npm run dev -- --open
 
 ## Building
 
-The app is fully static (prerendered with `@sveltejs/adapter-static`):
+Pages are prerendered at build time and served by a small Node server
+(`@sveltejs/adapter-node`):
 
 ```sh
 npm run build
-npm run preview
+node build
 ```
 
 ## Deploying with Docker
 
-The `Dockerfile` builds the static site with Node and serves it with nginx.
+The `Dockerfile` builds the app with Node and runs it with Node — no nginx or
+other reverse proxy involved.
 
 ```sh
 docker build -t ipg .
-docker run --rm -p 8080:80 ipg
+docker run --rm -p 3000:3000 ipg
 ```
 
-Then open http://localhost:8080.
+Then open http://localhost:3000.
