@@ -1,42 +1,33 @@
-# sv
+# IPG — Internet Payment Gateway (demo)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.17.0 create --template minimal --types ts --install npm .
-```
+A front-end-only SvelteKit demo of a card-add payment flow: a live animated
+card preview, a validated card form, and an animated success screen. There is
+no backend — submission is simulated client-side and the result is passed to
+the success page via `sessionStorage`.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
+npm install
 npm run dev -- --open
 ```
 
 ## Building
 
-To create a production version of your app:
+The app is fully static (prerendered with `@sveltejs/adapter-static`):
 
 ```sh
 npm run build
+npm run preview
 ```
 
-You can preview the production build with `npm run preview`.
+## Deploying with Docker
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+The `Dockerfile` builds the static site with Node and serves it with nginx.
+
+```sh
+docker build -t ipg .
+docker run --rm -p 8080:80 ipg
+```
+
+Then open http://localhost:8080.
